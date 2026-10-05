@@ -1,0 +1,24 @@
+# Core Data Manipulation and Scientific Computing
+numpy==2.5.1
+pandas==3.0.5
+scipy==1.18.0
+
+# Data Visualization
+matplotlib==3.11.1
+seaborn==0.13.2
+
+# Machine Learning Frameworks
+scikit-learn==1.9.0
+xgboost==3.3.0
+lightgbm==4.7.0
+catboost==1.2.10
+
+# Hyperparameter Optimization and Model Explainability
+optuna==4.9.0
+shap==0.52.0
+
+# Model Persistence and Utilities
+joblib==1.5.3
+
+# Interactive Notebook Environment
+ipykernel==7.3.0
