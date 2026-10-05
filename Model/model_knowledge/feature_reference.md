@@ -7,7 +7,7 @@ This document provides a full reference for every feature used in the regression
 ## Raw Features from battery_observations.csv
 
 | Feature | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `cycle_index` | int | Sequential index of the charge-discharge cycle for a given battery |
 | `battery_age_days` | float | Calendar age of the battery in days at the time of the cycle |
 | `time_since_previous_cycle_hours` | float | Hours elapsed since the previous recorded cycle |
@@ -40,7 +40,7 @@ This document provides a full reference for every feature used in the regression
 ## Features from battery_metadata.csv
 
 | Feature | Type | Values | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `chemistry` | str | LFP, NMC, NCA | Electrochemical composition of the battery cells |
 | `manufacturer` | str | Various | Battery pack manufacturer identifier |
 | `climate_zone` | str | Temperate, Desert, Nordic, Equatorial | Operational environment of the battery |
@@ -52,7 +52,7 @@ This document provides a full reference for every feature used in the regression
 ## Engineered Features
 
 | Feature | Formula | Domain Rationale |
-|---|---|---|
+| --- | --- | --- |
 | `soc_swing` | `soc_start_pct - soc_end_pct` | Captures effective utilization width per cycle. Larger swings correlate with deeper cycling stress and faster capacity fade. |
 | `charge_discharge_ratio` | `charge_c_rate / (discharge_c_rate + 1e-6)` | A ratio greater than 1 indicates faster charging relative to discharge. High charge rates accelerate lithium plating and SEI growth. |
 | `temp_stress` | `abs(pack_temp_c - 25) * (1 + cumulative_high_temp_hours / 100)` | Combines instantaneous thermal deviation from the optimal 25 C operating point with cumulative heat history. Captures both acute and chronic thermal stress. |
@@ -66,7 +66,7 @@ This document provides a full reference for every feature used in the regression
 ## Excluded Features
 
 | Feature | Reason for Exclusion |
-|---|---|
+| --- | --- |
 | `remaining_useful_efc` | Direct leakage: it is a linear transformation of the target variable |
 | `eol_reached` | Direct leakage: it is set to True when `remaining_useful_cycles` reaches 0 |
 | `battery_id` | Non-predictive identifier used only for split assignment and metadata join |

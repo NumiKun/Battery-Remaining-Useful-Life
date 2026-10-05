@@ -11,7 +11,7 @@ This knowledge base documents the complete machine learning pipeline built to pr
 ### Source Files
 
 | File | Rows | Description |
-|---|---|---|
+| --- | --- | --- |
 | `battery_observations.csv` | 172,779 | Per-cycle operational sensor readings for 200 batteries |
 | `battery_metadata.csv` | 200 | Static battery-level attributes |
 | `train_batteries.csv` | 140 IDs | Batteries assigned to training |
@@ -27,7 +27,7 @@ This knowledge base documents the complete machine learning pipeline built to pr
 ### Target Variable Statistics (Training Set)
 
 | Statistic | Value |
-|---|---|
+| --- | --- |
 | Mean | ~446 cycles |
 | Median | ~391 cycles |
 | Std | ~310 cycles |
@@ -44,6 +44,7 @@ The mild skew did not warrant a log-transform. Tree-based models are robust to n
 ### Raw Features Used
 
 All columns from `battery_observations.csv` except:
+
 - `battery_id` (identifier, not predictive)
 - `timestamp` (identifier)
 - `remaining_useful_efc` (direct leakage from target)
@@ -51,6 +52,7 @@ All columns from `battery_observations.csv` except:
 - `remaining_useful_cycles` (target)
 
 Metadata columns merged in from `battery_metadata.csv`:
+
 - `chemistry` (LFP, NMC, NCA)
 - `manufacturer`
 - `climate_zone` (Temperate, Desert, Nordic, Equatorial)
@@ -60,7 +62,7 @@ Metadata columns merged in from `battery_metadata.csv`:
 ### Engineered Features
 
 | Feature | Formula | Rationale |
-|---|---|---|
+| --- | --- | --- |
 | `soc_swing` | `soc_start_pct - soc_end_pct` | Effective depth of usage per cycle |
 | `charge_discharge_ratio` | `charge_c_rate / (discharge_c_rate + 1e-6)` | Captures asymmetric charging stress |
 | `temp_stress` | `abs(pack_temp_c - 25) * (1 + cumulative_high_temp_hours / 100)` | Weighted thermal deviation from optimal operating point |
@@ -89,7 +91,7 @@ The preprocessor is fitted exclusively on the training set and applied identical
 ### Baseline (Default Hyperparameters)
 
 | Model | Val MAE | Val RMSE | Val R2 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Ridge | High | High | Low |
 | Lasso | High | High | Low |
 | ElasticNet | High | High | Low |
@@ -121,6 +123,7 @@ The preprocessor is fitted exclusively on the training set and applied identical
 ### Search Spaces
 
 **XGBoost**
+
 - `n_estimators`: 200 to 1000
 - `max_depth`: 3 to 10
 - `learning_rate`: 0.01 to 0.3 (log scale)
@@ -131,6 +134,7 @@ The preprocessor is fitted exclusively on the training set and applied identical
 - `min_child_weight`: 1 to 10
 
 **LightGBM**
+
 - `n_estimators`: 200 to 1000
 - `max_depth`: 3 to 12
 - `learning_rate`: 0.01 to 0.3 (log scale)
@@ -142,6 +146,7 @@ The preprocessor is fitted exclusively on the training set and applied identical
 - `min_child_samples`: 5 to 100
 
 **CatBoost**
+
 - `iterations`: 200 to 1000
 - `depth`: 4 to 10
 - `learning_rate`: 0.01 to 0.3 (log scale)
@@ -168,10 +173,10 @@ After tuning, all three models are **retrained on the combined train+validation 
 ## Evaluation Metrics
 
 | Metric | Formula | Interpretation |
-|---|---|---|
-| MAE | mean(|y - y_hat|) | Average absolute error in cycle units |
+| --- | --- | --- |
+| MAE | mean( | y - y_hat | ) | Average absolute error in cycle units |
 | RMSE | sqrt(mean((y - y_hat)^2)) | Error metric that penalizes large deviations more heavily |
-| MAPE | mean(|y - y_hat| / y) * 100 | Relative error as a percentage |
+| MAPE | mean( | y - y_hat | / y) * 100 | Relative error as a percentage |
 | R2 | 1 - SS_res / SS_tot | Proportion of variance explained (1.0 = perfect) |
 
 ---
