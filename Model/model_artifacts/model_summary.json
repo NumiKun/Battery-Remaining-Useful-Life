@@ -1,0 +1,19 @@
+{
+  "best_model": "CatBoost (tuned)",
+  "test_mae": 40.7587,
+  "test_rmse": 59.8668,
+  "test_mape_pct": 6944219413658732.0,
+  "test_r2": 0.9665,
+  "top_features_shap": {
+    "state_of_health_pct": 230.35246511261238,
+    "usage_strategy": 43.724533838249705,
+    "climate_zone": 42.47590819026814,
+    "cycle_index": 30.368981610453446,
+    "degradation_status": 18.50372973677068,
+    "nominal_capacity_kwh": 13.27638517667717,
+    "equivalent_full_cycles": 9.389306842492974,
+    "cumulative_high_temp_hours": 8.435659324384353,
+    "battery_age_days": 7.708429386038433,
+    "chemistry": 5.9563393554756425
+  }
+}
